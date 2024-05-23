@@ -1,0 +1,3 @@
+NEXT_PUBLIC_API=http://localhost:8080/api
+NEXT_PUBLIC_STRIPE_KEY=pk_live_51IG8NpL8X0p7pPjMdY4ENa7QzjGtiV3QwBGtZ8ZT2cOJGoPaP3gJripgRzI14lsk2P6m6Vkdkhm2YwhBkVXgIS7300BKCUWqq4
+API=http://localhost:8000/api
