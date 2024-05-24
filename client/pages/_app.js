@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider>
       <TopNav></TopNav>
+      <hr></hr>
       <ToastContainer position="top-center"/>
       <Component {...pageProps} />
       <Footer />

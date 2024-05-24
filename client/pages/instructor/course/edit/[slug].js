@@ -1,157 +1,199 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import InstructorRoute from "../../../../components/routes/InstructorRoute";
-import CourseCreateForm from "../../../../components/forms/CourseCreateForm";
-import UpdateLessonForm from "../../../../components/forms/UpdateLessonForm";
+import CourseEditForm from "../../../../components/forms/CourseEditForm";
+import axios from "axios";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { List, Avatar,Modal } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { List, Avatar, Modal } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import UpdateLessonForm from "../../../../components/forms/UpdateLessonForm";
 
 const { Item } = List;
-
 
 const CourseEdit = () => {
   // state
   const [values, setValues] = useState({
+    _id: "",
     name: "",
     description: "",
     price: "9.99",
-    uploading: false,
     paid: true,
-    category: "",
     loading: false,
+    image: {},
+    categories: [],
     lessons: [],
+    instructor: {},
   });
-  const [image, setImage] = useState({});
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   const [preview, setPreview] = useState("");
-  const [uploadButtonText, setUploadButtonText] = useState("Upload Image");
+  const [uploadButtonText, setUploadButtonText] = useState("Upload image");
 
-// state for lessons update
-const [visible, setVisible] = useState(false);
-const [current, setCurrent] = useState({});
-const [uploadVideoButtonText, setUploadVideoButtonText] = useState(
-  "Upload Video"
-);
-const [progress, setProgress] = useState(0);
-const [uploading, setUploading] = useState(false);
+  /**
+   * LESSON UPDATE
+   */
+  const [visible, setVisible] = useState(false);
+  const [current, setCurrent] = useState({});
+  const [uploadVideoButtonText, setUploadVideoButtonText] = useState(
+    "Upload video"
+  );
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  // markdown cheetsheet modal
+  const [markdownCheetsheetModal, setMarkdownCheetsheetModal] = useState(false);
 
-  // router
   const router = useRouter();
   const { slug } = router.query;
 
+  // fetch course
   useEffect(() => {
-    loadCourse();
+    // console.log(slug);
+    if (slug) fetchCourse();
   }, [slug]);
 
-  const loadCourse = async () => {
-    const { data } = await axios.get(`/api/course/${slug}`);
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const fetchCourse = async () => {
+    let { data } = await axios.get(`/api/course/${slug}`);
+    // console.log(data);
     setValues(data);
-    if (data && data.image) setImage(data.image);
+    // push array of categories to be used by ant select component
+    if (data) {
+      let arr = [];
+      data.categories && data.categories.map((c) => arr.push(c._id));
+      setSelectedCategories(arr);
+    }
+  };
+
+  const loadCategories = async () => {
+    const { data } = await axios.get("/api/categories");
+    // console.log(data);
+    setCategoryList(data);
   };
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const handleImage = (e) => {
-    let file = e.target.files[0];
-    setPreview(window.URL.createObjectURL(file));
-    setUploadButtonText(file.name);
-    setValues({ ...values, loading: true });
-    // resize
-    Resizer.default.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (uri) => {
-      try {
-        let { data } = await axios.post("/api/course/upload-image", {
-          image: uri,
-        });
-        console.log("IMAGE UPLOADED", data);
-        // set image in the state
-        setImage(data);
-        setValues({ ...values, loading: false });
-      } catch (err) {
-        console.log(err);
-        setValues({ ...values, loading: false });
-        toast("Image upload failed. Try later.");
-      }
-    });
-  };
-
-  const handleImageRemove = async () => {
-    try {
-      // console.log(values);
-      setValues({ ...values, loading: true });
-      const res = await axios.post(`/api/course/remove-image`, { image });
-      setImage({});
-      setPreview("");
-      setUploadButtonText("Upload Image");
-      setValues({ ...values, loading: false });
-    } catch (err) {
-      console.log(err);
-      setValues({ ...values, loading: false });
-      toast("Image upload failed. Try later.");
-    }
+    // console.log(e.target.name, " ----- ", e.target.value);
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // console.log("HANDLE SUBMIT => ", values);
     try {
-      // console.log(values);
-      const { data } = await axios.put(`/api/course/create-course/${slug}`, {
+      const { data } = await axios.put(`/api/course/${values._id}`, {
         ...values,
-        image,
+        categories: selectedCategories,
       });
-      toast("Course updated!");
-     // router.push("/instructor");
+      // console.log(data);
+      toast("Updated!");
+      // router.push("/instructor");
     } catch (err) {
+      console.log(err);
       toast(err.response.data);
     }
   };
 
+  const handleImage = async (e) => {
+    // remove previous image
+    if (values.image && values.image.Location) {
+      // console.log("YES VALUES IMAGE", values.image);
+      let { data } = await axios.post(
+        `/api/course/remove-image/${values._id}`,
+        {
+          image: values.image,
+        }
+      );
+      // console.log("removed previous image", data);
+    }
+
+    console.log(e.target.files[0]);
+    let file = e.target.files[0];
+    setPreview(window.URL.createObjectURL(file));
+    setUploadButtonText(file.name);
+    setValues({ ...values, loading: true });
+
+    Resizer.imageFileResizer(
+      file, // file
+      720, // maxWidth
+      500, // maxHeight
+      "JPEG", // compressionFormat
+      100, // quality
+      0, // rotation
+      async (uri) => {
+        // post to s3
+        try {
+          let { data } = await axios.post("/api/course/upload-image", {
+            image: uri,
+          });
+          // console.log("image uploaded", data);
+          setValues({ ...values, image: data, loading: false });
+          setUploadButtonText("Upload image");
+        } catch (err) {
+          setValues({ ...values, loading: false });
+          setUploadButtonText("Upload image");
+          toast("Image upload failed. Try again.");
+          console.log(err);
+        }
+      },
+      "base64" // outputType
+    );
+  };
+
+  // drag events
+  // set key > 'itemIndex' in 'e' object
   const handleDrag = (e, index) => {
-    // console.log("ON DRAG => ", index);
+    console.log("ON DRAG", index);
     e.dataTransfer.setData("itemIndex", index);
   };
 
   const handleDrop = async (e, index) => {
-    // console.log("ON DROP => ", index);
+    console.log("ON DROP", index);
 
     const movingItemIndex = e.dataTransfer.getData("itemIndex");
-    const targetItemIndex = index;
+    const targetItemIndex = index; // targeted item on drop
     let allLessons = values.lessons;
 
     let movingItem = allLessons[movingItemIndex]; // clicked/dragged item to re-order
     allLessons.splice(movingItemIndex, 1); // remove 1 item from the given index
     allLessons.splice(targetItemIndex, 0, movingItem); // push item after target item index
 
-    setValues({ ...values, lessons: [...allLessons] });
-    // save the new lessons order in db
-    const { data } = await axios.put(`/api/course/lesson/${slug}`, {
+    setValues({ ...values, lessons: allLessons });
+    // make request to backend to save the re-ordered lessons
+    // console.log("SEND TO BACKEND", values.lessons);
+    const { data } = await axios.put(`/api/course/${values._id}`, {
       ...values,
-      image,
+      categories: selectedCategories,
     });
-    // console.log("LESSONS REARRANGED RES => ", data);
-    toast("Lessons rearranged successfully");
+    console.log(data);
+    toast("Saved!");
   };
 
-
-  const handleDelete = async (index) => {
-    const answer = window.confirm("Are you sure you want to delete?");
+  const handleDeleteLesson = async (index) => {
+    let answer = window.confirm("Are you sure?");
     if (!answer) return;
     let allLessons = values.lessons;
     const removed = allLessons.splice(index, 1);
-    // console.log("removed", removed[0]._id);
+    // remove previous video
+    if (removed && removed.length && removed[0].video) {
+      let res = await axios.post(
+        `/api/course/remove-video/${values._id}`,
+        removed[0].video
+      );
+      console.log(res);
+    }
+
     setValues({ ...values, lessons: allLessons });
-    // send request to server
-    const { data } = await axios.put(`/api/course/${slug}/${removed[0]._id}`);
-    console.log("LESSON DELETED =>", data);
+    // console.log("removed", removed, "slug", slug);`
+    const { data } = await axios.post(
+      `/api/course/${values._id}/${removed[0]._id}`
+    );
+    if (data.ok) toast("Deleted");
+    console.log("delete lesson => ", data);
   };
-
-
-  /**
-   * lesson update functions
-   */
 
   const handleVideo = async (e) => {
     // remove previous
@@ -208,28 +250,33 @@ const [uploading, setUploading] = useState(false);
       toast("Lesson updated");
     }
   };
+
   return (
     <InstructorRoute>
-      <h1 className="jumbotron text-center square">Update Course</h1>
+      <h1 className="jumbotron text-center square p-3 mt-2 left-bottom-radius">
+        Update Course
+      </h1>
 
-      <div className="pt-3 pb-3">
-        <CourseCreateForm
-          handleSubmit={handleSubmit}
-          handleImage={handleImage}
-          handleChange={handleChange}
+      <div className="pb-5">
+        <CourseEditForm
           values={values}
           setValues={setValues}
+          handleChange={handleChange}
+          handleImage={handleImage}
+          handleSubmit={handleSubmit}
+          categoryList={categoryList}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
           preview={preview}
           uploadButtonText={uploadButtonText}
-          handleImageRemove={handleImageRemove}
-          editPage={true}
+          markdownCheetsheetModal={markdownCheetsheetModal}
+          setMarkdownCheetsheetModal={setMarkdownCheetsheetModal}
         />
       </div>
-      {/* <pre>{JSON.stringify(values, null, 4)}</pre>
-      <hr />
-      <pre>{JSON.stringify(image, null, 4)}</pre> */}
-      <hr/>
 
+      {/* {JSON.stringify(current)} */}
+
+      <hr />
       <div className="row pb-5">
         <div className="col lesson-list">
           <h4>{values && values.lessons && values.lessons.length} Lessons</h4>
@@ -242,29 +289,30 @@ const [uploading, setUploading] = useState(false);
                 draggable
                 onDragStart={(e) => handleDrag(e, index)}
                 onDrop={(e) => handleDrop(e, index)}
+                className="pointer"
               >
                 <Item.Meta
-                onClick={() => {
-                  setVisible(true);
-                  setCurrent(item);
-                }}
+                  onClick={() => {
+                    setVisible(true);
+                    setCurrent(item);
+                  }}
                   avatar={<Avatar>{index + 1}</Avatar>}
                   title={item.title}
-                ></Item.Meta>
+                />
 
                 <DeleteOutlined
-                  onClick={() => handleDelete(index)}
+                  onClick={() => handleDeleteLesson(index, item)}
                   className="text-danger float-right"
                 />
               </Item>
             )}
-          ></List>
+          />
         </div>
       </div>
 
-
       <Modal
-        title="Update lesson"
+        title="Update"
+        // width={720}
         centered
         visible={visible}
         onCancel={() => setVisible(false)}
@@ -273,15 +321,16 @@ const [uploading, setUploading] = useState(false);
         <UpdateLessonForm
           current={current}
           setCurrent={setCurrent}
-          handleVideo={handleVideo}
-          handleUpdateLesson={handleUpdateLesson}
           uploadVideoButtonText={uploadVideoButtonText}
           progress={progress}
+          handleVideo={handleVideo}
+          handleUpdateLesson={handleUpdateLesson}
           uploading={uploading}
+          markdownCheetsheetModal={markdownCheetsheetModal}
+          setMarkdownCheetsheetModal={setMarkdownCheetsheetModal}
         />
         {/* <pre>{JSON.stringify(current, null, 4)}</pre> */}
-      </Modal>  
-
+      </Modal>
     </InstructorRoute>
   );
 };
