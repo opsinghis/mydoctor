@@ -116,7 +116,7 @@ const CourseEdit = () => {
     setUploadButtonText(file.name);
     setValues({ ...values, loading: true });
 
-    Resizer.imageFileResizer(
+    Resizer.default.imageFileResizer(
       file, // file
       720, // maxWidth
       500, // maxHeight

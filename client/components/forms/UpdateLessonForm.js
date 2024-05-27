@@ -51,12 +51,7 @@ const UpdateLessonForm = ({
           {!uploading && current.video && current.video.Location && (
             <div className="pt-2 d-flex justify-content-center">
               {/* {current.video.Location} */}
-              <ReactPlayer
-                url={current.video.Location}
-                width="410px"
-                height="240px"
-                controls
-              />
+              {current.video.Location}
             </div>
           )}
           <label className="btn btn-dark btn-block text-left mt-3">

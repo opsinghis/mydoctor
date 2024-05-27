@@ -2,6 +2,7 @@ import { withRouter } from "next/router";
 import {useState, useEffect} from "react";
 import axios from "axios";
 import CourseCard from "../components/cards/CourseCard";
+import VideoPlayer from "../components/cards/VideoPlayer";
 import Head from "next/head";
 
 const Index = ({ courses, router }) => {
@@ -46,15 +47,21 @@ const Index = ({ courses, router }) => {
 
       <div className="container-fluid">
         <div className="row pt-2">
+
+
+  
         {courses.map((course) => (
             <div key={course._id} className="col-md-4">
               <CourseCard key={course._id} course={course} />
               {/*<pre>{JSON.stringify(course, null, 4)}</pre> */}
             </div>
         ))}
+        <VideoPlayer/>   
       </div>
       </div>
+
     </>
+    
   );
 };
 
