@@ -1,7 +1,9 @@
-import { Button, Progress, Switch } from "antd";
+import { Button, Card, Progress, Switch } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
-import ReactPlayer from "react-player";
+//import ReactPlayer from "react-player";
 import MarkdownCheetsheet from "../../components/modal/MarkdownCheatsheet";
+import { Component } from "react";
+import VideoPlayer from "../cards/VideoPlayer";;
 
 const UpdateLessonForm = ({
   current,
@@ -51,7 +53,9 @@ const UpdateLessonForm = ({
           {!uploading && current.video && current.video.Location && (
             <div className="pt-2 d-flex justify-content-center">
               {/* {current.video.Location} */}
-              {current.video.Location}
+              <VideoPlayer
+                videoUrl={current.video.Location}
+              />
             </div>
           )}
           <label className="btn btn-dark btn-block text-left mt-3">

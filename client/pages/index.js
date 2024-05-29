@@ -2,7 +2,6 @@ import { withRouter } from "next/router";
 import {useState, useEffect} from "react";
 import axios from "axios";
 import CourseCard from "../components/cards/CourseCard";
-import VideoPlayer from "../components/cards/VideoPlayer";
 import Head from "next/head";
 
 const Index = ({ courses, router }) => {
@@ -44,7 +43,6 @@ const Index = ({ courses, router }) => {
       <div  className="jumbotron text-center bg-primary square">
         Online Doctors Training Marketplace
       </div>
-
       <div className="container-fluid">
         <div className="row pt-2">
 
@@ -56,7 +54,7 @@ const Index = ({ courses, router }) => {
               {/*<pre>{JSON.stringify(course, null, 4)}</pre> */}
             </div>
         ))}
-        <VideoPlayer/>   
+ 
       </div>
       </div>
 

@@ -1,26 +1,27 @@
-import React from "react";
-import ReactPlayer from "react-player";
+import React, { useRef } from 'react';
 
-const VideoPlayer = () => {
-  //video path
-  let videosrc = "https://techshila.s3.eu-west-1.amazonaws.com/6644a83327283f5fdccd9e74/l7f7rge69ZvONX3scskPq.mp4";
+const VideoPlayer = ({ videoUrl }) => {
+    const videoRef = useRef(null);
+    //videoUrl = "https://techshila.s3.eu-west-1.amazonaws.com/6644a83327283f5fdccd9e74/l7f7rge69ZvONX3scskPq.mp4";
+    
+    console.log("videoUrl", videoUrl);
 
-  return (
-    <div>
-      <h1>my doctor player</h1>
-      <ReactPlayer
-        width="500px"
-        height="400px"
-        url={videosrc}
-        controls={true}
-        // light is usefull incase of dark mode
-        light={false}
-        // picture in picture
-        pip={true}
-      />
-      <source src={videosrc} type="video/mp4" />
-    </div>
-  );
+    const playVideo = () => {
+        videoRef.current.play();
+    };
+
+    const pauseVideo = () => {
+        videoRef.current.pause();
+    };
+
+    return (
+      <div>
+       <video width="410" height="240" controls autoPlay> 
+           <source src={videoUrl} type="video/mp4"/>
+       </video>
+
+      </div>
+    );
 };
 
 export default VideoPlayer;

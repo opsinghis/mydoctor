@@ -122,8 +122,8 @@ const SingleCourseJumbotron = ({
               ></span>
             </div>
           )}
-          {/* enroll button */}
 
+          {/* enroll button */}
           <Button
             className="mb-3"
             type="danger"

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { markdownToTxt } from "markdown-to-txt";
 import DisqusThread from "../../components/DisqusThread";
 
+
 const SingleCourse = ({ course }) => {
   const [showModal, setShowModal] = useState(false);
   const [preview, setPreview] = useState("");
