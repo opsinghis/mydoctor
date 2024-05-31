@@ -84,7 +84,7 @@ const TopNav = () => {
     <>
       {/* <DarkTheme /> */}
 
-      <Menu style={{ display: 'block' }} mode="horizontal">
+      {/* <Menu style={{ display: 'block' }} mode="horizontal">
   <Menu.Item key='home'><Link href={'/'}>Home</Link></Menu.Item>
   <Menu.Item key='option1'><Link href={'/option1'}>Option 1</Link></Menu.Item>
   <Menu.Item key='notif' style={{ float: 'right' }}>
@@ -93,21 +93,28 @@ const TopNav = () => {
   <Menu.Item key='logout' style={{ float: 'right' }}>
     <Link href={'/notif'}>Logout</Link>
   </Menu.Item>
-</Menu>
+</Menu> */}
 
       <Layout className="layout">
-        <Header style={{ display: 'flex' }} >
-          <div className="logo" style={{ color: 'white' }}>
-          <img
-                      src="/images/logo/medicine-symbol-logo.png"
-                      alt="code continue logo"
-                      height="40"
-                      className="mb-1"
-                    />
-          </div>
+        <Header >
 
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} selectedKeys={[current]}>
-          <Menu.Item key="/" icon={<HomeOutlined />}><Link href="/">Home</Link></Menu.Item>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} selectedKeys={[current]} style={{ display: 'block' }}>
+        <Menu.Item onClick={(e) => setCurrent(e.key)}>
+          <Link href="/">
+          <div className="logo" style={{ color: 'white' }}>
+            <img
+                        src="/images/logo/medicine-symbol-logo.png"
+                        alt="code continue logo"
+                        height="40"
+                        className="mb-1"
+                      />
+            </div>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/" icon={<HomeOutlined />} onClick={(e) => setCurrent(e.key)}><Link href="/">
+            Home
+            </Link>
+          </Menu.Item>
           <Menu.Item key="/articles" icon={<ReadOutlined />} > <Link href="/articles">Articles</Link></Menu.Item>
 
           {user && user.role && user.role.includes("Author") ? (
@@ -138,14 +145,14 @@ const TopNav = () => {
             <Menu.Item
               icon={<UserAddOutlined />}
               key="/register"
-              className="float-right"
+              style={{ float: 'right' }}
             >
               <Link href="/register">
               Register
               </Link>
             </Menu.Item>
 
-            <Menu.Item icon={<LoginOutlined />} key="/login">
+            <Menu.Item icon={<LoginOutlined />} key="/login" style={{ float: 'right' }}>
               <Link href="/login">
                 Login
                 </Link>
@@ -157,7 +164,7 @@ const TopNav = () => {
           <Menu.SubMenu
             icon={<CoffeeOutlined />}
             title={user && user.name}
-            className="float-right"
+            style={{ float: 'right' }}
           >
             <ItemGroup>
               <Item key="/user">
@@ -175,17 +182,13 @@ const TopNav = () => {
             key="/instructor"
             onClick={(e) => setCurrent(e.key)}
             icon={<TeamOutlined />}
-            className="float-right"
+            style={{ float: 'right' }}
           >
             <Link href="/instructor">
               Instructor
             </Link>
           </Menu.Item>
         )}
-      </Menu>
-      <Menu>
-        <Menu.Item>test</Menu.Item>
-        <Menu.Item>test</Menu.Item>
       </Menu>
     </Header>
 
