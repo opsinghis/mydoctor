@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../../context/index.js";
-import { Menu } from "antd";
+import { Menu, Layout, Button } from "antd";
 import {
+  HomeOutlined,
+  UserOutlined,
+  SettingOutlined,
   LoginOutlined,
   UserAddOutlined,
   AppstoreOutlined,
@@ -26,6 +29,9 @@ import { toast } from "react-toastify";
 // import themes
 // const LightTheme = React.lazy(() => import("../themes/LightTheme"));
 // const DarkTheme = React.lazy(() => import("../themes/DarkTheme"));
+
+const { Header } = Layout;
+
 
 const TopNav = () => {
   const [current, setCurrent] = useState("");
@@ -72,137 +78,119 @@ const TopNav = () => {
     }
   };
 
+
+
   return (
     <>
       {/* <DarkTheme /> */}
-      <Menu
-        onClick={(e) => setCurrent(e.key)}
-        selectedKeys={[current]}
-        mode="horizontal"
-      >
-        <Item key="/">
-          <Link href="/" legacyBehavior>
-            <a className="typewriter" >
-              <div className="pt-1">
-                <img
-                  src="/images/logo/logo.png"
-                  alt="code continue logo"
-                  height="40"
-                  className="mb-1"
-                />
-              </div>
-            </a>
-          </Link>
-        </Item>
 
-        <Item icon={<ReadOutlined />} key="/articles">
-          <Link href="/articles" legacyBehavior>
-            <a className="typewriter">Articles</a>
-          </Link>
-        </Item>
+      <Menu style={{ display: 'block' }} mode="horizontal">
+  <Menu.Item key='home'><Link href={'/'}>Home</Link></Menu.Item>
+  <Menu.Item key='option1'><Link href={'/option1'}>Option 1</Link></Menu.Item>
+  <Menu.Item key='notif' style={{ float: 'right' }}>
+    <Link href={'/notif'}>Notifications</Link>
+  </Menu.Item>
+  <Menu.Item key='logout' style={{ float: 'right' }}>
+    <Link href={'/notif'}>Logout</Link>
+  </Menu.Item>
+</Menu>
 
-        {user && user.role && user.role.includes("Author") ? (
-          <></>
-        ) : (
-          <Item icon={<FormOutlined />} key="/user/become-author">
-            <Link href="/user/become-author" legacyBehavior>
-              <a className="typewriter">Become Author</a>
-            </Link>
-          </Item>
-        )}
+      <Layout className="layout">
+        <Header style={{ display: 'flex' }} >
+          <div className="logo" style={{ color: 'white' }}>
+          <img
+                      src="/images/logo/medicine-symbol-logo.png"
+                      alt="code continue logo"
+                      height="40"
+                      className="mb-1"
+                    />
+          </div>
 
-        {user &&
-        user.role &&
-        user.stripe_seller &&
-        user.role.includes("Instructor") &&
-        user.stripe_seller.charges_enabled ? (
-          <></>
-        ) : (
-          <Item icon={<TeamOutlined />} key="/user/become-instructor">
-            <Link href="/user/become-instructor" legacyBehavior>
-              <a className="typewriter">Become Instructor</a>
-            </Link>
-          </Item>
-        )}
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} selectedKeys={[current]}>
+          <Menu.Item key="/" icon={<HomeOutlined />}><Link href="/">Home</Link></Menu.Item>
+          <Menu.Item key="/articles" icon={<ReadOutlined />} > <Link href="/articles">Articles</Link></Menu.Item>
 
-        {user === null && (
-          <>
-            <Item
+          {user && user.role && user.role.includes("Author") ? (
+            <></>
+          ) : (
+            <Menu.Item key="/user/become-author" icon={<FormOutlined />} >
+              <Link href="/user/become-author">Become Author</Link>
+            </Menu.Item>
+          )}
+
+          {user &&
+          user.role &&
+          user.stripe_seller &&
+          user.role.includes("Instructor") &&
+          user.stripe_seller.charges_enabled ? (
+            <></>
+          ) : (
+            <Menu.Item key="/user/become-instructor" icon={<TeamOutlined />} >
+              <Link href="/user/become-instructor">
+              Become Instructor
+              </Link>
+            </Menu.Item>
+          )}
+
+
+          {user === null && (
+                  <>
+            <Menu.Item
               icon={<UserAddOutlined />}
               key="/register"
               className="float-right"
             >
-              <Link href="/register" legacyBehavior>
-                <a>Register</a>
+              <Link href="/register">
+              Register
               </Link>
-            </Item>
+            </Menu.Item>
 
-            <Item icon={<LoginOutlined />} key="/login" className="float-right">
-              <Link href="/login" legacyBehavior>
-                <a>Login</a>
-              </Link>
-            </Item>
+            <Menu.Item icon={<LoginOutlined />} key="/login">
+              <Link href="/login">
+                Login
+                </Link>
+            </Menu.Item>
           </>
-        )}
+        )}       
 
         {user !== null && (
-          <SubMenu
+          <Menu.SubMenu
             icon={<CoffeeOutlined />}
-            title={user.name}
+            title={user && user.name}
             className="float-right"
           >
             <ItemGroup>
               <Item key="/user">
-                <Link href="/user" legacyBehavior>
-                  <a>Dashboard</a>
+                <Link href="/user">
+                  Dashboard
                 </Link>
               </Item>
-
               <Item onClick={logout}>Logout</Item>
             </ItemGroup>
-          </SubMenu>
+          </Menu.SubMenu>
         )}
 
-        {user &&
-          user.role &&
-          user.stripe_seller &&
-          user.role.includes("Instructor") &&
-          user.stripe_seller.charges_enabled && (
-            <Item
-              icon={<AudioOutlined />}
-              key="/instructor"
-              className="float-right"
-            >
-              <Link href="/instructor" legacyBehavior>
-                <a className="typewriter">Instructor</a>
-              </Link>
-            </Item>
-          )}
-
-        {user && user.courses && user.courses.length >= 1 && (
-          <Item icon={<DesktopOutlined />} key="/user" className="float-right">
-            <Link href="/user" legacyBehavior>
-              <a className="typewriter">Student</a>
+        {user && user.role && user.role.includes("Instructor") && (
+          <Menu.Item
+            key="/instructor"
+            onClick={(e) => setCurrent(e.key)}
+            icon={<TeamOutlined />}
+            className="float-right"
+          >
+            <Link href="/instructor">
+              Instructor
             </Link>
-          </Item>
-        )}
-
-        {user && user.role && user.role.includes("Author") && (
-          <Item icon={<EditOutlined />} key="/author" className="float-right">
-            <Link href="/author" legacyBehavior>
-              <a className="typewriter">Author</a>
-            </Link>
-          </Item>
-        )}
-
-        {user && user.role && user.role.includes("Admin") && (
-          <Item icon={<AudioOutlined />} key="/admin" className="float-right">
-            <Link href="/admin" legacyBehavior>
-              <a className="typewriter">Admin</a>
-            </Link>
-          </Item>
+          </Menu.Item>
         )}
       </Menu>
+      <Menu>
+        <Menu.Item>test</Menu.Item>
+        <Menu.Item>test</Menu.Item>
+      </Menu>
+    </Header>
+
+  </Layout>
+
     </>
   );
 };

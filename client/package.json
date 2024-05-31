@@ -15,6 +15,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@react-hook/window-size": "^3.1.1",
+    "@stripe/stripe-js": "^3.4.1",
     "antd": "^5.16.1",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",

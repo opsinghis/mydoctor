@@ -9,6 +9,7 @@ import { Context } from "../../context";
 import { toast } from "react-toastify";
 import { markdownToTxt } from "markdown-to-txt";
 import DisqusThread from "../../components/DisqusThread";
+import { loadStripe } from "@stripe/stripe-js";
 
 
 const SingleCourse = ({ course }) => {

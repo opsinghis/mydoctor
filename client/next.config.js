@@ -10,7 +10,6 @@ const nextConfig = {
       "rc-picker",
       "rc-tree",
       "rc-table",
-      "react-player",
     ],
   };
   

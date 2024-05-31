@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import { Context } from "../../context";
+import VideoPlayer from "../cards/VideoPlayer";;
 
 const SingleCourseJumbotron = ({
   course,
@@ -99,6 +100,10 @@ const SingleCourseJumbotron = ({
                 height="225px"
               /> */}
 
+              <VideoPlayer
+                videoUrl={lessons[0].video.Location}
+              />
+
               <PlayCircleFilled
                 className="align-self-center display-4 text-light"
                 style={{ padding: "90px 90px 90px 90px" }}
@@ -126,14 +131,14 @@ const SingleCourseJumbotron = ({
           {/* enroll button */}
           <Button
             className="mb-3"
-            type="danger"
+            type=""
             block
             shape="round"
             icon={<SafetyOutlined />}
             size="large"
             disabled={loading}
             onClick={paid ? handlePaidEnrollment : handleFreeEnrollment}
-            // style={{ width: "342px" }}
+            //style={{ width: "342px" }}
           >
             {user
               ? enrolled.status
