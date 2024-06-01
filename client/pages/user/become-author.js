@@ -80,7 +80,7 @@ const BecomeAuthor = () => {
                     onClick={() => setShowModal(true)}
                     className="pointer text-danger"
                   >
-                    Why write on mydoctor.com?
+                    Why write on doctrain.com?
                   </span>
                 </small>
               </p>

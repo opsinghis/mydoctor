@@ -4,7 +4,7 @@ const AuthorTerms = ({ showModal, setShowModal }) => {
   return (
     <>
       <Modal
-        title="Why write on codecontinue?"
+        title="Why write on Doctrain?"
         visible={showModal}
         onCancel={() => setShowModal(!showModal)}
         // width={720}
@@ -16,7 +16,7 @@ const AuthorTerms = ({ showModal, setShowModal }) => {
             share easily.
           </li>
           <li>
-            Reach out to thousands of free and paid students at codecontinue
+            Reach out to thousands of free and paid students at Doctrain
           </li>
           <li>Potential to promote your courses (if any) to wider audience</li>
           <li>Create, read, update or delete anytime</li>

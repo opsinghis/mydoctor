@@ -77,16 +77,16 @@ const UserIndex = () => {
             <ContactForm loadUserIssues={loadUserIssues} />
           </div>
           <div className="col-md-4 pb-4 text-rr">
-            <h4>CodeContinue</h4>
+            <h4>Doctrain</h4>
             <hr />
             <p className="lead">Find us on twitter</p>
             <a
               style={{ paddingTop: "2px" }}
               className="lead"
-              href="https://twitter.com/CodeContinue?ref_src=twsrc%5Etfw"
+              href="https://twitter.com/Doctrain?ref_src=twsrc%5Etfw"
               target="_blank"
             >
-              <TwitterOutlined /> @CodeContinue
+              <TwitterOutlined /> @Doctrain
             </a>
           </div>
         </div>

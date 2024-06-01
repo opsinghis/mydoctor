@@ -109,26 +109,32 @@ const CourseView = () => {
         {/* <pre>{JSON.stringify(course, null, 4)}</pre> */}
         {course && (
           <div className="container-fluid pt-1">
-            <div className="media pt-2">
-              <Avatar
-                size={80}
-                src={course.image ? course.image.Location : "/course.png"}
-              />
 
-              <div className="media-body pl-2">
-                <div className="row">
-                  <div className="col">
-                    <h5 className="mt-2 text-primary">{course.name}</h5>
-                    <p style={{ marginTop: "-10px" }}>
-                      {course.lessons && course.lessons.length} Lessons
-                    </p>
-                    <p style={{ marginTop: "-15px", fontSize: "10px" }}>
-                      {course.category}
-                    </p>
+            <div class="row">
+              <div class="col-6 col-md-1">              
+                <Avatar
+                    size={80}
+                    src={course.image ? course.image.Location : "/course.png"}
+                  />
+                </div>
+                <div class="col-6 col-md-6">
+                    <div className="row">
+                      <div className="col">
+                          <div className="mt-2 text-primary">
+                            <h5 className="pt-2">{course.name}</h5>
+                            <p style={{ marginTop: "-10px" }}>
+                              {course.lessons && course.lessons.length} Lessons
+                            </p>
+                            <p style={{ marginTop: "-15px", fontSize: "10px" }}>
+                              {course.category}
+                            </p>
+                          </div>
+                      </div>
                   </div>
-
-                  <div className="d-flex pt-4">
-                    <Tooltip title="Edit">
+                
+                </div>
+                <div class="col-6 col-md-4">
+                <Tooltip title="Edit">
                       <EditOutlined
                         onClick={() =>
                           router.push(`/instructor/course/edit/${slug}`)
@@ -139,9 +145,7 @@ const CourseView = () => {
                     <Tooltip title="Publish">
                       <CheckOutlined className="h5 pointer text-danger" />
                     </Tooltip>
-                  </div>
                 </div>
-              </div>
             </div>
             <hr />
             <div className="row">

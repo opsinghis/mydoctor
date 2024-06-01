@@ -6,15 +6,15 @@ const Footer = () => (
     className="container-fluid footer mt-5"
     style={{ borderTop: "1px solid #333" }}
   >
-    <footer className="pt-5 pb-4">
+    <footer className="pt-2 pb-2">
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-md-1">
           <Link href="/">
                           <img
                 style={{ marginTop: "-10px" }}
                 className="img-fluid mb-2"
-                src="/images/logo/logo.png"
-                alt="codecontinue Logo"
+                src="/images/logo/medicine-symbol-logo.png"
+                alt="doctrain Logo"
               />
           </Link>
 
@@ -24,9 +24,9 @@ const Footer = () => (
         </div>
 
         <div className="col-md-4">
-          <h5>Code Continue</h5>
-          <p className="lead">
-            Join thousands of students at mydoctor and become part of a
+          <h5>Doctrain Continue</h5>
+          <p >
+            Join thousands of students at Doctrain and become part of a
             vibrant community. Learn the pass your exams development or become an
             instructor and teach others by creating courses.
           </p>
@@ -35,16 +35,16 @@ const Footer = () => (
           <a
             style={{ paddingTop: "2px" }}
             className="lead"
-            href="https://twitter.com/CodeContinue?ref_src=twsrc%5Etfw"
+            href="https://twitter.com/Doctrain?ref_src=twsrc%5Etfw"
             target="_blank"
           >
-            <TwitterOutlined /> @CodeContinue
+            <TwitterOutlined /> @Doctrain
           </a>
         </div>
 
         <div className="col-md-4">
           <h5 className="pb-1">Become an instructor</h5>
-          <p className="lead">
+          <p >
             The only eLearning marketplace that offers 70% revenue to it's
             instructors. Get paid directly to your bank account, every 48 hours.
             Are you ready to create your first course?

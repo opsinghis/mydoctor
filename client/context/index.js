@@ -47,7 +47,7 @@ const Provider = ({ children }) => {
       return response;
     },
     function (error) {
-      console.log("MyDoctor Context index error: ",error);
+      console.log("Doctrain Context index error: ",error);
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with response error
 
@@ -78,7 +78,7 @@ const Provider = ({ children }) => {
   useEffect(() => {
     const getCsrfToken = async () => {
       const { data } = await axios.get("/api/csrf-token");
-      console.log("MyDoctor CSRF : ",data);
+      console.log("Doctrain CSRF : ",data);
       axios.defaults.headers["X-CSRF-Token"] = data.csrfToken;
     };
     getCsrfToken();

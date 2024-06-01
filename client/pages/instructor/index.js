@@ -27,57 +27,62 @@ const InstructorIndex = () => {
     {courses &&
         courses.map((course) => (
           <>
-            <div className="media pt-2">
-              <Avatar
-                size={80}
-                src={course.image ? course.image.Location : "/course.png"}
-              />
+          <div class="container">
 
-               <div className="media-body pl-2">
-                <div className="row">
-                  <div className="col">
-                    <Link
-                      href={`/instructor/course/view/${course.slug}`}
-                      className="pointer"
-                      
-                    >
-                      <div className="mt-2 text-primary">
-                        <h5 className="pt-2">{course.name}</h5>
-                      </div>
-                    </Link>
-                    <p style={{ marginTop: "-10px" }}>
-                      {course.lessons.length} Lessons
-                    </p>
-
-                    {course.lessons.length < 5 ? (
-                      <p style={myStyle} className="text-warning">
-                        At least 5 lessons are required to publish a course
-                      </p>
-                    ) : course.published ? (
-                      <p style={myStyle} className="text-success">
-                        Your course is live in the marketplace
-                      </p>
-                    ) : (
-                      <p style={myStyle} className="text-success">
-                        Your course is ready to be published
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="col-md-3 mt-3 text-center">
-                    {course.published ? (
-                      <div>
-                        <CheckCircleOutlined className="h5 pointer text-success" />
-                      </div>
-                    ) : (
-                      <div>
-                        <CloseCircleOutlined className="h5 pointer text-warning" />
-                      </div>
-                    )}
-                  </div>
+          <div class="row">
+              <div class="col-6 col-md-1">              
+                <Avatar
+                    size={80}
+                    src={course.image ? course.image.Location : "/course.png"}
+                  />
                 </div>
-              </div>
+                <div class="col-6 col-md-6">
+                    <div className="row">
+                      <div className="col">
+                        <Link
+                          href={`/instructor/course/view/${course.slug}`}
+                          className="pointer"
+                          
+                        >
+                          <div className="mt-2 text-primary">
+                            <h5 className="pt-2">{course.name}</h5>
+                          </div>
+                        </Link>
+                        <p style={{ marginTop: "-10px" }}>
+                          {course.lessons.length} Lessons
+                        </p>
+
+                        {course.lessons.length < 5 ? (
+                          <p style={myStyle} className="text-warning">
+                            At least 5 lessons are required to publish a course
+                          </p>
+                        ) : course.published ? (
+                          <p style={myStyle} className="text-success">
+                            Your course is live in the marketplace
+                          </p>
+                        ) : (
+                          <p style={myStyle} className="text-success">
+                            Your course is ready to be published
+                          </p>
+                        )}
+                      </div>
+                  </div>
+                
+                </div>
+                <div class="col-6 col-md-4">
+                {course.published ? (
+                          <div>
+                            <CheckCircleOutlined className="h5 pointer text-success" />
+                          </div>
+                        ) : (
+                          <div>
+                            <CloseCircleOutlined className="h5 pointer text-warning" />
+                          </div>
+                        )}
+                  </div>
             </div>
+          </div>
+          <hr></hr>
           </>
         ))}
     </InstructorRoute>

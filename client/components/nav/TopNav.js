@@ -98,7 +98,7 @@ const TopNav = () => {
       <Layout className="layout">
         <Header >
 
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} selectedKeys={[current]} style={{ display: 'block' }}>
+        <Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']} selectedKeys={[current]} style={{ display: 'block' }}>
         <Menu.Item onClick={(e) => setCurrent(e.key)}>
           <Link href="/">
           <div className="logo" style={{ color: 'white' }}>

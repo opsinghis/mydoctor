@@ -43,9 +43,9 @@ const BecomeInstructor = () => {
             <div className="pt-4">
               <UserSwitchOutlined className="display-1 pb-3" />
               <br />
-              <h2>Setup payout to publish courses on MyDoctor</h2>
+              <h2>Setup payout to publish courses on Doctrain</h2>
               <p className="lead text-warning">
-                MyDoctor partners with stripe to transfer earnings to your bank
+                Doctrain partners with stripe to transfer earnings to your bank
                 account
               </p>
 
