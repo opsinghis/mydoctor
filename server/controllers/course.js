@@ -11,7 +11,6 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET);
 
 const awsConfig = {
-endpoint: process.env.DO_SPACES_ENDPOINT,
 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 region: process.env.AWS_REGION,
@@ -392,7 +391,7 @@ export const checkEnrollment = async (req, res) => {
   const { courseId } = req.params;
   // find courses of the currently logged in user
   const user = await User.findById(req.auth._id).exec();
-  // check if hotel id is found in userOrders array
+  // check if courses id is found in userOrders array
   let ids = [];
   for (let i = 0; i < user.courses.length; i++) {
     ids.push(user.courses[i].toString());
@@ -450,12 +449,19 @@ export const paidEnrollment = async (req, res) => {
       // purchase details
       line_items: [
         {
-          name: course.name,
-          amount: Math.round(course.price.toFixed(2) * 100), // in cents
-          currency: "usd",
+          price_data: {     
+            product_data:{
+              name: course.name,
+              description: "test description",
+            },       
+            currency: "usd",
+            unit_amount: Math.round(course.price.toFixed(2) * 100), // in cents
+          },
           quantity: 1,
         },
       ],
+      mode: "payment",
+        
       // charge buyer and transfer remaining balance to seller (after fee)
       payment_intent_data: {
         application_fee_amount: Math.round(fee.toFixed(2) * 100),

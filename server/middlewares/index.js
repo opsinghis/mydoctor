@@ -71,7 +71,7 @@ export const isEnrolled = async (req, res, next) => {
     const user = await User.findById(req.auth._id).exec();
     const course = await Course.findOne({ slug: req.params.slug }).exec();
 
-    // check if hotel id is found in userOrders array
+    // check if courses id is found in userOrders array
     let ids = [];
     for (let i = 0; i < user.courses.length; i++) {
       ids.push(user.courses[i].toString());

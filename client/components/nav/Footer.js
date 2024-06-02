@@ -25,32 +25,23 @@ const Footer = () => (
 
         <div className="col-md-4">
           <h5>Doctrain Continue</h5>
-          <p >
+          <p class="h6"><small>
             Join thousands of students at Doctrain and become part of a
             vibrant community. Learn the pass your exams development or become an
             instructor and teach others by creating courses.
-          </p>
-          <hr />
-          <p className="lead">Find us on twitter</p>
-          <a
-            style={{ paddingTop: "2px" }}
-            className="lead"
-            href="https://twitter.com/Doctrain?ref_src=twsrc%5Etfw"
-            target="_blank"
-          >
-            <TwitterOutlined /> @Doctrain
-          </a>
+            </small></p>
+        
         </div>
 
         <div className="col-md-4">
           <h5 className="pb-1">Become an instructor</h5>
-          <p >
+          <p class="h6"><small>
             The only eLearning marketplace that offers 70% revenue to it's
             instructors. Get paid directly to your bank account, every 48 hours.
             Are you ready to create your first course?
-          </p>
+            </small></p>
           <Link href="/user/become-instructor" legacyBehavior>
-            <a className="lead">Become Instructor</a>
+            Become Instructor
           </Link>
         </div>
       </div>

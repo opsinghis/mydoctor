@@ -111,3 +111,40 @@ export const removeIssue = async (req, res) => {
     console.log(err);
   }
 };
+
+
+export const makeAdmin= async (req, res) => {
+try {
+  let updated = await User.findByIdAndUpdate(
+    req.auth._id,
+    {
+      $addToSet: { role: "Admin" },
+    },
+    { new: true }
+  ).exec();
+  res.json(updated);
+} catch (err) {
+  console.log(err);
+  return res.status(400).send("Error occured. Try again.");
+}
+};
+
+export const removeAdmin= async (req, res) => {
+  try {
+    const user = await User.findById(req.auth._id).exec();
+    if (user.role.includes("Admin")) {
+      let updated = await User.findByIdAndUpdate(
+        req.auth._id,
+        {
+          $pull: { role: "Admin" },
+        },
+        { new: true }
+      ).exec();
+      res.json(updated);
+    }
+
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send("Error occured. Try again.");
+  }
+  };

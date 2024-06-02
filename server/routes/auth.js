@@ -13,9 +13,11 @@ import {
   forgotPassword,
   resetPassword,
   registerActivate,
+  registerwithoutemail,
 } from "../controllers/auth.js";
 
 router.post("/register", register);
+router.post("/register-withoutemail" , registerwithoutemail);
 router.post("/register-activate", registerActivate);
 router.post("/login", login);
 

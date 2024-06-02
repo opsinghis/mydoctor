@@ -6,11 +6,14 @@ import {
   DollarOutlined,
   SettingOutlined,
   LoadingOutlined,
+  SyncOutlined,
 } from "@ant-design/icons";
 import { stripeCurrencyFormatter } from "../../utils/helpers";
 
 const InstructorRevenue = () => {
   const [balance, setBalance] = useState({ pending: [] });
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     sendBalanceRequest();
@@ -22,7 +25,15 @@ const InstructorRevenue = () => {
   };
 
   const handlePayoutSettings = async () => {
-    console.log("handle payout settings");
+    try {
+      setLoading(true);
+      const { data } = await axios.get("/api/instructor/payout-settings");
+      window.location.href = data;
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+      alert("Unable to access payout settings. Try later.");
+    }
   };
 
   return (
@@ -43,7 +54,7 @@ const InstructorRevenue = () => {
               Pending balance
               {balance.pending &&
                 balance.pending.map((bp, i) => (
-                  <span key={i} className="float-right">
+                  <span key={i} className="float-right p-4">
                     {stripeCurrencyFormatter(bp)}
                   </span>
                 ))}
@@ -52,10 +63,14 @@ const InstructorRevenue = () => {
             <hr />
             <h4>
               Payouts{" "}
-              <SettingOutlined
-                className="float-right pointer"
-                onClick={handlePayoutSettings}
-              />
+              {!loading ? (
+                <SettingOutlined
+                  className="float-right pointer"
+                  onClick={handlePayoutSettings}
+                />
+              ) : (
+                <SyncOutlined spin className="float-right pointer" />
+              )}
             </h4>
             <small>
               Update your stripe account details or view previous payouts.

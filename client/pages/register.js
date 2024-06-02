@@ -28,11 +28,20 @@ const Register = () => {
     // console.table({ name, email, password });
     try {
       setLoading(true);
-      const { data } = await axios.post(`/api/register`, {
+
+      // /api/register links with welcome email on AWS
+      // const { data } = await axios.post(`/api/register`, {
+      //   name,
+      //   email,
+      //   password,
+      // });
+      
+      const { data } = await axios.post(`/api/register-withoutemail`, {
         name,
         email,
         password,
       });
+      
       // console.log("REGISTER RESPONSE", data);
       toast("Registration successful. Please login.");
       setName("");
