@@ -54,7 +54,9 @@ const UpdateLessonForm = ({
             <div className="pt-2 d-flex justify-content-center">
               {/* {current.video.Location} */}
               <VideoPlayer
-                videoUrl={current.video.Location}
+                videoUrl={current.video.Location}  
+                width="410px"
+                height="240px"
               />
             </div>
           )}

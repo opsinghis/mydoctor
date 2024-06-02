@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import StudentRoute from "../../../components/routes/StudentRoute";
 import { Button, Menu, Avatar } from "antd";
-import ReactPlayer from "react-player";
+import VideoPlayer from "../../../components/cards/VideoPlayer";
 import ReactMarkdown from "react-markdown";
 import {
   PlayCircleOutlined,
@@ -119,9 +119,51 @@ const SingleCourse = () => {
           </div>
           <div class="col bg-light border">
               {clicked !== -1 ? (
-          <> {JSON.stringify(course.lessons[clicked])}</>
+          <> 
+            {/*JSON.stringify(course.lessons[clicked])*/}
+              <div className="col alert alert-primary square">
+                <b>{course.lessons[clicked].title.substring(0, 30)}</b>
+                {completedLessons.includes(course.lessons[clicked]._id) ? (
+                  <span
+                  class="d-flex justify-content-end pointer"
+                    onClick={markIncompleted}
+                  >
+                    Mark as incomplete
+                  </span>
+                ) : (
+                  <span class="d-flex justify-content-end pointer" onClick={markCompleted}>
+                    Mark as completed
+                  </span>
+                )}
+              </div>              
+
+
+              {course.lessons[clicked].video &&
+                course.lessons[clicked].video.Location && (
+                  <>
+                    <div className="wrapper">
+                      <VideoPlayer
+                          videoUrl={course.lessons[clicked].video.Location}
+                          width="1000px" 
+                          height="600px"
+                          markCompleted={markCompleted}
+                      />
+                    </div>
+                  </>
+                )}
+              <ReactMarkdown
+                children={course.lessons[clicked].content}
+                className="single-post"
+              />     
+          
+          </>
           ) : (
-          <>Click to launch the lesssion</>
+            <div className="d-flex justify-content-center p-5">
+            <div className="text-center p-5">
+              <PlayCircleOutlined className="text-primary display-1 p-5" />
+              <p className="lead">Clcik on the lessons to start learning</p>
+            </div>
+          </div>
           )} 
           </div>
 
