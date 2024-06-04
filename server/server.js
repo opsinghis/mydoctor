@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan"
 import dotenv from "dotenv";
 
+
 dotenv.config();
 const csrfProtection = csrf({ cookie: true });
 

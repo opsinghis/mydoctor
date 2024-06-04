@@ -21,7 +21,7 @@ router.post(
   "/admin/refresh-user-status",
   requireSignin,
   isAdmin,
-  refreshUserStatus
+  refreshUserStatus,
 );
 // help and support
 router.delete(
@@ -32,8 +32,8 @@ router.delete(
 );
 router.get("/admin/issues", requireSignin, isAdmin, allIssues);
 
-router.get("/admin/make-admin", requireSignin, makeAdmin);
-router.get("/admin/remove-admin", requireSignin, isAdmin, removeAdmin);
+router.post("/admin/make-admin", requireSignin, makeAdmin);
+router.post("/admin/remove-admin", requireSignin, isAdmin, removeAdmin);
 
 //module.exports = router;
 export default router;

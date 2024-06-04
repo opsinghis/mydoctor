@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import InstructorRoute from "../../../components/routes/InstructorRoute";
 import CourseCreateForm from "../../../components/forms/CourseCreateForm";
@@ -18,12 +18,31 @@ const CourseCreate = () => {
     loading: false,
     imagePreview: "",
   });
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   const [image, setImage] = useState({});
   const [preview, setPreview] = useState("");
   const [uploadButtonText, setUploadButtonText] = useState("Upload Image");
 
+  const [visible, setVisible] = useState(false);
+
+  // markdown cheetsheet modal
+  const [markdownCheetsheetModal, setMarkdownCheetsheetModal] = useState(false);
+
   // router
   const router = useRouter();
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    const { data } = await axios.get("/api/categories");
+    // console.log(data);
+    setCategoryList(data);
+  };
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -106,6 +125,11 @@ const CourseCreate = () => {
           preview={preview}
           uploadButtonText={uploadButtonText}
           handleImageRemove={handleImageRemove}
+          categoryList={categoryList}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+          markdownCheetsheetModal={markdownCheetsheetModal}
+          setMarkdownCheetsheetModal={setMarkdownCheetsheetModal}
         />
       </div>
       <pre>{JSON.stringify(values, null, 4)}</pre>

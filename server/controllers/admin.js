@@ -114,6 +114,7 @@ export const removeIssue = async (req, res) => {
 
 
 export const makeAdmin= async (req, res) => {
+  console.log("make admin controller called");
 try {
   let updated = await User.findByIdAndUpdate(
     req.auth._id,
